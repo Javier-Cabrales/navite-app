@@ -39,7 +39,7 @@ export default function SignIn({ navigation }) {
                     Recuperar contraseña
                 </Text>
             </TouchableOpacity>
-            <Button title={"Iniciar secion"} />
+            <Button title={"Iniciar secion"} onPress={() => navigation.navigate(routes.home)} />
             <View style={styles.containerIcons}>
                 <View style={styles.iconsItems}>
                     <FontAwesome
