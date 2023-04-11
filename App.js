@@ -6,8 +6,9 @@ import Button from "./src/components/Button";
 import routes from "./routes";
 import SignUp from "./src/screens/signUp";
 import SignIn from "./src/screens/signIn";
+import HomeScreen from "./src/screens/homeScreen"
 
-function HomeScreen({ navigation }) {
+function WelcomeScreen({ navigation }) {
   return (
     <Container>
       <View style={styles.containerImage}>
@@ -35,9 +36,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={routes.welcome}>
-        <Stack.Screen name={routes.welcome} component={HomeScreen} />
+        <Stack.Screen name={routes.welcome} component={WelcomeScreen} />
         <Stack.Screen name={routes.signUp} component={SignUp} />
         <Stack.Screen name={routes.signIn} component={SignIn} />
+        <Stack.Screen name={routes.home} component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
