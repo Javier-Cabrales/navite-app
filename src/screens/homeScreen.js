@@ -1,4 +1,13 @@
 import React, { useRef, useState } from "react";
+import profile from "../../assets/profile.png"
+import home from "../../assets/home.png"
+import search from "../../assets/search.png"
+import notifications from "../../assets/bell.png"
+import settings from "../../assets/settings.png"
+import logout from "../../assets/logout.png"
+import menu from "../../assets/menu.png"
+import photo from "../../assets/photo.jpg"
+import routes from "../../routes";
 import {
     SafeAreaView,
     View,
@@ -8,16 +17,8 @@ import {
     TouchableOpacity,
     Animated
 } from "react-native"
-import profile from "../../assets/profile.png"
-import home from "../../assets/home.png"
-import search from "../../assets/search.png"
-import notifications from "../../assets/bell.png"
-import settings from "../../assets/settings.png"
-import logout from "../../assets/logout.png"
-import menu from "../../assets/menu.png"
-import photo from "../../assets/photo.jpg"
 
-export default function Drawer() {
+export default function HomeScreen({ navigation }) {
 
     const [currentTab, setCurrentTab] = useState("Home");
     const [showMenu, setShowMenu] = useState(false);
@@ -42,13 +43,13 @@ export default function Drawer() {
                     </Text>
                 </TouchableOpacity>
                 <View style={{ flexGrow: 1 }}>
-                    {TabButto(currentTab, setCurrentTab, "Home", home)}
-                    {TabButto(currentTab, setCurrentTab, "Search", search)}
-                    {TabButto(currentTab, setCurrentTab, "Notifications", notifications)}
-                    {TabButto(currentTab, setCurrentTab, "settings", settings)}
+                    {TabButto(currentTab, setCurrentTab, "Home", home, navigation)}
+                    {TabButto(currentTab, setCurrentTab, "Search", search, navigation)}
+                    {TabButto(currentTab, setCurrentTab, "Notifications", notifications, navigation)}
+                    {TabButto(currentTab, setCurrentTab, "settings", settings, navigation)}
                 </View>
                 <View>
-                    {TabButto(currentTab, setCurrentTab, "Logout", logout)}
+                    {TabButto(currentTab, setCurrentTab, "Logout", logout, navigation)}
                 </View>
             </View>
             <Animated.View style={{
@@ -60,15 +61,15 @@ export default function Drawer() {
                 left: 0,
                 right: 0,
                 paddingHorizontal: 15,
+                paddingVertical: 20,
                 borderRadius: showMenu ? 15 : 0,
                 transform: [
                     { scale: scaleValue },
                     { translateX: offsetValue }
                 ]
             }}>
+                {/* Boton de Menu */}
                 <TouchableOpacity onPress={() => {
-                    // Do Actions Here
-                    // Scaling the View
                     Animated.timing(scaleValue, {
                         toValue: showMenu ? 1 : 0.88,
                         duration: 300,
@@ -91,36 +92,27 @@ export default function Drawer() {
                         marginTop: 20
                     }}></Image>
                 </TouchableOpacity>
+                {/* Parte principal de la app */}
                 <Text style={{
                     fontSize: 30,
                     fontWeight: "bold",
                     color: "black",
                     paddingTop: 20
                 }}>{currentTab}</Text>
-                <Image source={photo} style={{
-                    width: "100%",
-                    height: 300,
-                    borderRadius: 15,
-                    marginTop: 20
-                }}></Image>
-                <Text style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    paddingTop: 15,
-                    paddingBottom: 5
-                }}>Jenna Doe</Text>
-
-                <Text>Techie,Youtuber, Ps Lover, Apple Sheep´s Sister</Text>
+                {/* 
+                Aqui va todo lo de Home, Search, notification y settings 
+                Que se renderizara condicionalmete 
+                */}
             </Animated.View>
         </SafeAreaView>
     )
 }
 
-const TabButto = (currentTab, setCurrentTab, title, image) => {
+const TabButto = (currentTab, setCurrentTab, title, image, navigation) => {
     return (
         <TouchableOpacity onPress={() => {
             if (title == "Logout") {
-                // Do your Stuff
+                navigation.goBack()
             } else {
                 setCurrentTab(title)
             }
@@ -162,7 +154,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 10,
-        marginTop: 8
+        marginTop: 20
     },
     name: {
         fontSize: 20,
