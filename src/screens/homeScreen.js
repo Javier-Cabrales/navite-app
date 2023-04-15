@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import profile from "../../assets/profile.png"
 import home from "../../assets/home.png"
 import search from "../../assets/search.png"
@@ -6,8 +6,6 @@ import notifications from "../../assets/bell.png"
 import settings from "../../assets/settings.png"
 import logout from "../../assets/logout.png"
 import menu from "../../assets/menu.png"
-import photo from "../../assets/photo.jpg"
-import routes from "../../routes";
 import {
     SafeAreaView,
     View,
@@ -23,11 +21,27 @@ export default function HomeScreen({ navigation }) {
     const [currentTab, setCurrentTab] = useState("Home");
     const [showMenu, setShowMenu] = useState(false);
 
-    //Animated Properties
     const offsetValue = useRef(new Animated.Value(0)).current;
-    //Scale Intially must be One...
     const scaleValue = useRef(new Animated.Value(1)).current;
     const closeButtonOffSet = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(scaleValue, {
+            toValue: showMenu ? 0.88 : 1,
+            duration: 300,
+            useNativeDriver: true
+        }).start()
+
+        Animated.timing(offsetValue, {
+            toValue: showMenu ? 220 : 0,
+            duration: 300,
+            useNativeDriver: true
+        }).start()
+    }, [showMenu])
+
+    const toggleMenu = () => {
+        setShowMenu(!showMenu)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -69,22 +83,7 @@ export default function HomeScreen({ navigation }) {
                 ]
             }}>
                 {/* Boton de Menu */}
-                <TouchableOpacity onPress={() => {
-                    Animated.timing(scaleValue, {
-                        toValue: showMenu ? 1 : 0.88,
-                        duration: 300,
-                        useNativeDriver: true
-                    }).start()
-
-                    Animated.timing(offsetValue, {
-                        // Your Random Value
-                        toValue: showMenu ? 0 : 220,
-                        duration: 300,
-                        useNativeDriver: true
-                    }).start()
-
-                    setShowMenu(!showMenu)
-                }}>
+                <TouchableOpacity onPress={toggleMenu}>
                     <Image source={menu} style={{
                         width: 20,
                         height: 20,
@@ -92,7 +91,6 @@ export default function HomeScreen({ navigation }) {
                         marginTop: 20
                     }}></Image>
                 </TouchableOpacity>
-                {/* Parte principal de la app */}
                 <Text style={{
                     fontSize: 30,
                     fontWeight: "bold",
